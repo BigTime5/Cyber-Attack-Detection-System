@@ -1,0 +1,48 @@
+{
+  "dataset_info": {
+    "train_samples": 763144,
+    "test_samples": 188967,
+    "val_samples": 188967,
+    "train_malicious_pct": 0.1663,
+    "test_malicious_pct": 90.7349,
+    "class_imbalance_ratio": 600.37,
+    "num_features": 7
+  },
+  "model_architecture": {
+    "type": "Deep Neural Network",
+    "hidden_layers": [
+      64,
+      32,
+      16
+    ],
+    "activation": "ReLU",
+    "optimizer": "Gradient Descent",
+    "epochs": 30
+  },
+  "performance_metrics": {
+    "accuracy": 0.9457,
+    "precision": 0.9994,
+    "recall": 0.9407,
+    "specificity": 0.9945,
+    "f1_score": 0.9691,
+    "roc_auc": 0.951,
+    "avg_precision": 0.9582,
+    "detection_rate": 0.9407,
+    "false_alarm_rate": 0.0055
+  },
+  "confusion_matrix": {
+    "tn": 17411,
+    "fp": 97,
+    "fn": 10172,
+    "tp": 161287
+  },
+  "feature_importance": {
+    "processId": 0.1009,
+    "threadId": 0.0974,
+    "parentProcessId": 0.01,
+    "userId": 0.8567,
+    "mountNamespace": 0.0212,
+    "argsNum": 0.0053,
+    "returnValue": 0.0045
+  }
+}
