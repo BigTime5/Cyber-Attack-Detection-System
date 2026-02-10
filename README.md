@@ -1,131 +1,102 @@
-# 🛡️ Cyber Attack Detection System
+# 🛡️ Cyber Attack Detection with Deep Learning
 
-### *AI-Driven Threat Intelligence using Deep Neural Networks on the BETH Dataset*
+### Advanced Threat Detection on the BETH Dataset using a Custom Neural Network
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
-![Deep Learning](https://img.shields.io/badge/Deep_Learning-NumPy-orange?style=for-the-badge)
-![Streamlit](https://img.shields.io/badge/Deployment-Streamlit-red?style=for-the-badge&logo=streamlit)
-![Status](https://img.shields.io/badge/Status-Production_Ready-brightgreen?style=for-the-badge)
+![Project Status](https://img.shields.io/badge/status-complete-green)
+![Python Version](https://img.shields.io/badge/python-3.9+-blue)
+![License](https://img.shields.io/badge/license-MIT-brightgreen)
+[![Streamlit App](https://img.shields.io/badge/Live_App-Streamlit-red?style=for-the-badge&logo=streamlit)](https://bigtime5-cyber-attack-detection-system-app-7zrq38.streamlit.app/)
+
+A deep learning project designed to proactively identify and classify malicious system events from benign ones. This model analyzes real-world simulated logs from the BETH dataset to enhance cybersecurity measures and protect organizations from sophisticated cyber threats.
 
 ---
 
-## 📋 Table of Contents
-- [Executive Summary](#-executive-summary)
-- [Live Demo](#-live-demo)
-- [The Problem](#-the-problem)
-- [The Solution](#-the-solution)
-- [Technical Architecture](#-technical-architecture)
-- [Performance Metrics](#-performance-metrics)
-- [Business Impact](#-business-impact)
+## 🚀 Live Demo & Interactive Report
+
+Experience the project's findings and interact with the model through the deployed web application and comprehensive analysis report.
+
+- **[Interactive Streamlit Dashboard  streamlit.app/](https://bigtime5-cyber-attack-detection-system-app-7zrq38.streamlit.app/)**
+- **[Full Analysis Report bigtime5.github.io](https://bigtime5.github.io/Cyber-Attack-Detection-System/)**
+
+---
+
+## 📖 Table of Contents
+
+- [Project Overview](#-project-overview)
+- [Model Performance Highlights](#-model-performance-highlights)
+- [Key Visualizations](#-key-visualizations)
+- [Technology Stack](#-technology-stack)
 - [Repository Structure](#-repository-structure)
-- [Installation](#-installation)
-- [Author](#-author)
+- [Getting Started](#-getting-started)
+- [How to Run](#-how-to-run)
+- [Key Findings & Business Impact](#-key-findings--business-impact)
+- [Conclusion & Next Steps](#-conclusion--next-steps)
+- [Contact](#-contact)
+- [License](#-license)
 
 ---
 
-## 🎯 Executive Summary
+## 🌐 Project Overview
 
-In an era of sophisticated cyber threats, traditional signature-based detection systems are failing. This project implements a **custom Deep Neural Network (DNN)** built from scratch using NumPy to detect malicious activity in system logs. 
+Cyber threats are a growing concern for organizations worldwide, with attacks becoming more frequent and sophisticated. Traditional signature-based detection methods often fail to keep pace with new, evolving threats. This project addresses this challenge by leveraging a deep learning model to analyze system event logs.
 
-Trained on the **BETH Dataset**, the model achieves a **94.57% accuracy** and an outstanding **ROC-AUC of 0.9510**, effectively identifying threats in a highly imbalanced environment (600:1 ratio of benign to malicious events).
+The model is trained on the **BETH (Benchmark Environment for Threat Hunting)** dataset, which simulates real-world system behavior. By identifying subtle patterns in process IDs, user activity, and system calls, the neural network can distinguish between malicious (`sus_label=1`) and benign (`sus_label=0`) events with high accuracy, enabling proactive threat mitigation.
 
-**Key Achievement:** Successfully detected **161,287 malicious events** while maintaining a false alarm rate of less than **0.6%**.
-
----
-
-## 🚀 Live Demo
-
-| Resource | Link |
-| :--- | :--- |
-| **🌐 Live Web Application** | [Streamlit Dashboard](https://bigtime5-cyber-attack-detection-system-app-7zrq38.streamlit.app/) |
-| **📊 Analysis Report** | [HTML Report](https://bigtime5.github.io/Cyber-Attack-Detection-System/) |
-| **📁 Source Code** | [GitHub Repo](https://github.com/BigTime5/Cyber-Attack-Detection-System) |
+**Key Objectives:**
+- **Design & Implement:** Create a robust deep learning model for binary classification of system events.
+- **Handle Imbalance:** Address the severe class imbalance inherent in cybersecurity data (600:1 Benign:Malicious).
+- **Feature Engineering:** Identify and engineer features that are highly predictive of malicious activity.
+- **Deliver Insights:** Provide a comprehensive analysis of model performance, feature importance, and potential business impact.
 
 ---
 
-## 🚨 The Problem
+## 📊 Model Performance Highlights
 
-Modern organizations face a relentless barrage of cyber threats:
-*   **Sophistication:** Attacks evolve faster than traditional rule-based signatures can update.
-*   **Volume:** Analysts are overwhelmed by millions of log entries daily.
-*   **Imbalance:** Malicious events are needles in a haystack of benign traffic (often <1% of data).
-
-The BETH dataset simulates this reality, presenting system event logs where malicious behavior is rare but devastating.
-
----
-
-## 💡 The Solution
-
-This project leverages a **Deep Learning approach** to learn complex patterns of malicious behavior directly from raw process data.
-
-### Why This Model is Exceptional:
-1.  **Zero-Dependency Architecture:** The neural network is built entirely with **NumPy matrix operations**, avoiding heavy frameworks like TensorFlow/PyTorch for a lightweight, transparent implementation.
-2.  **Class Imbalance Handling:** Utilizes **Balanced Mini-Batch Gradient Descent** to force the model to learn minority class (malicious) patterns effectively.
-3.  **Feature Engineering:** Incorporates polynomial interaction terms (e.g., `userId * processId`) to capture complex behavioral relationships.
-
----
-
-## ⚙️ Technical Architecture
-
-### Data Pipeline
-*   **Input:** 7 raw features (`processId`, `threadId`, `parentProcessId`, `userId`, `mountNamespace`, `argsNum`, `returnValue`)
-*   **Preprocessing:** Standard Scalar Normalization + Feature Augmentation
-*   **Target:** Binary Classification (`sus_label`: 0=Benign, 1=Malicious)
-
-### Neural Network Design
-A 4-layer Fully Connected Network:
-
-| Layer | Neurons | Activation | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Input** | 9 Features | - | Augmented Feature Vector |
-| **Hidden 1** | 64 | ReLU | Pattern Extraction |
-| **Hidden 2** | 32 | ReLU | Feature Abstraction |
-| **Hidden 3** | 16 | ReLU | High-Level Representation |
-| **Output** | 1 | Sigmoid | Probability Calculation |
-
-### Training Strategy
-*   **Optimizer:** Gradient Descent (LR: 0.01)
-*   **Loss:** Implicit Binary Cross-Entropy
-*   **Epochs:** 30
-*   **Batch Size:** 4096 (Balanced Sampling)
-
----
-
-## 📊 Performance Metrics
-
-The model demonstrates exceptional discriminative ability, balancing high detection rates with low false alarms.
+The trained neural network demonstrates exceptional performance in identifying malicious activities while maintaining a very low false alarm rate.
 
 | Metric | Score | Interpretation |
 | :--- | :--- | :--- |
-| **Accuracy** | `94.57%` | High overall correctness |
-| **Precision** | `0.9994` | Almost zero false positives |
-| **Recall (Detection Rate)**| `0.9407` | Catches 94% of attacks |
-| **F1-Score** | `0.9691` | Excellent balance |
-| **ROC-AUC** | `0.9510` | Strong class separation |
+| **Accuracy** | **94.57%** | Overall correctness across all events. |
+| **Attack Detection Rate (Recall)** | **94.07%** | Successfully identified 94% of all malicious events. |
+| **Precision** | **99.94%** | When the model predicts an attack, it's correct 99.9% of the time. |
+| **False Alarm Rate** | **0.55%** | Only 0.55% of benign events were incorrectly flagged as malicious. |
+| **ROC-AUC Score** | **0.9510** | Excellent ability to distinguish between malicious and benign classes. |
+| **F1-Score (Malicious Class)** | **0.9691** | Strong balance between precision and recall. |
 
-### Confusion Matrix Analysis
-*   **True Positives:** 161,287 (Attacks Detected)
-*   **False Negatives:** 10,172 (Attacks Missed)
-*   **False Positives:** 97 (False Alarms)
-*   **True Negatives:** 17,411
-
-### Feature Importance
-The model identified **`userId`** (Correlation: 0.8567) as the most predictive indicator of malicious activity, followed by `processId` and `threadId`.
+**Most Predictive Feature:** `userId` (Correlation: 0.8567)
 
 ---
 
-## 💰 Business Impact
+## ✨ Key Visualizations
 
-Based on the simulation using industry standard cost metrics (IBM 2023):
+#### Confusion Matrix
+This matrix visualizes the model's classification performance, detailing the trade-off between detecting attacks (True Positives) and avoiding false alarms (False Positives).
 
-*   **Average Breach Cost:** $4.24 Million
-*   **Attacks Detected:** 161,287
-*   **Estimated Savings:** `$478.6 Billion` (Risk Mitigation Value)
-*   **False Alarm Cost:** `$4.8 Million` (Operational Cost)
-*   **Net Benefit:** Massive ROI by preventing catastrophic data breaches.
 
-> *Note: Simulation based on proportional scaling of dataset events to real-world incident costs.*
+*The model correctly identified **161,287** malicious events while only misclassifying **97** benign events.*
+
+#### Feature Importance
+Analysis revealed that `userId` is by far the most significant predictor of malicious activity, highlighting the importance of monitoring user-level behavior.
+
+
+*The high correlation of `userId` suggests that attacks in this dataset are strongly associated with specific user accounts.*
 
 ---
 
-## 📁 Repository Structure
+## 🛠️ Technology Stack
+
+This project utilizes a range of modern data science and web development tools.
+
+| Component | Technologies |
+| :--- | :--- |
+| **Data Analysis** | `Pandas`, `NumPy` |
+| **Data Visualization** | `Matplotlib`, `Seaborn`, `Plotly` |
+| **ML/Deep Learning** | `Scikit-learn`, Custom NumPy-based Neural Network |
+| **Web Application** | `Streamlit` |
+| **Development Environment** | `Jupyter Notebook` |
+
+---
+
+## 📂 Repository Structure
+
+The repository is organized to separate data, source code, analysis, and application logic for clarity and reproducibility.
